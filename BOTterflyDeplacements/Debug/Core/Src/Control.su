@@ -1,0 +1,7 @@
+Control.c:20:9:Ctrl_Init_SetTimer	16	static
+Control.c:27:9:Ctrl_Set_Consigne	16	static
+Control.c:33:9:Ctrl_Set_Kp	16	static
+Control.c:38:9:Ctrl_Set_Ki	16	static
+Control.c:43:7:Ctrl_Get_Kp	4	static
+Control.c:47:7:Ctrl_Get_Ki	4	static
+Control.c:62:7:Ctrl_SpeedControl	40	static

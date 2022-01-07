@@ -1,0 +1,8 @@
+asserv_pos.c:45:6:setTargetX	16	static
+asserv_pos.c:54:6:setTargetY	16	static
+asserv_pos.c:63:9:isArrived	8	static
+asserv_pos.c:76:8:toZeroOne	16	static
+asserv_pos.c:87:8:toZeroTwoPi	16	static
+asserv_pos.c:97:8:speedCurve	40	static
+asserv_pos.c:106:6:Pos_ControlLoop_2steps	120	static
+asserv_pos.c:221:6:Pos_ControlLoop_Smooth	112	static

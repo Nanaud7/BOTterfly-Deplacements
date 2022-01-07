@@ -1,0 +1,5 @@
+motor.c:23:9:MOT_InitTimer	24	static
+motor.c:40:6:MOT_InitGPIOs	24	static
+motor.c:54:6:MOT_SetCoeff	24	static
+motor.c:72:6:MOT_SetDirection	16	static
+motor.c:100:6:MOT_SetDutyCycle	24	static
