@@ -4,7 +4,7 @@
 
 #include <BOTterfly-H/motor.h>
 #include <BOTterfly-H/encoder.h>
-#include <BOTterfly-H/odo.h>
+#include <BOTterfly-H/odometry.h>
 
 /* MOTORS */
 struct MOT_HandleTypeDef MoteurGauche;

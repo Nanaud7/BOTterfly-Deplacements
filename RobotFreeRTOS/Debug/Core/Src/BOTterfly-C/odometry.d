@@ -1,5 +1,5 @@
-Core/Src/BOTterfly-C/odo.o: ../Core/Src/BOTterfly-C/odo.c \
- ../Core/Inc/BOTterfly-H/odo.h ../Core/Inc/BOTterfly-H/modules.h \
+Core/Src/BOTterfly-C/odometry.o: ../Core/Src/BOTterfly-C/odometry.c \
+ ../Core/Inc/BOTterfly-H/odometry.h ../Core/Inc/BOTterfly-H/modules.h \
  ../Core/Inc/BOTterfly-H/motor.h ../Core/Inc/tim.h ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
@@ -31,7 +31,7 @@ Core/Src/BOTterfly-C/odo.o: ../Core/Src/BOTterfly-C/odo.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/BOTterfly-H/encoder.h
 
-../Core/Inc/BOTterfly-H/odo.h:
+../Core/Inc/BOTterfly-H/odometry.h:
 
 ../Core/Inc/BOTterfly-H/modules.h:
 

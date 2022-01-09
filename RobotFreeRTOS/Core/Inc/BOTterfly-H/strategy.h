@@ -34,7 +34,7 @@ extern uint8_t indexStrategy;
 /* End of external variables -------------------------------------------------*/
 
 /* Exported functions --------------------------------------------------------*/
-void strategyInit();
+void STRAT_strategyInit();
 /* End of exported functions -------------------------------------------------*/
 
 #endif /* INC_BOTTERFLY_H_STRATEGY_H_ */

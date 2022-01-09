@@ -2,7 +2,7 @@
  ******************************************************************************
  * @file	motors.c
  * @author 	Arnaud CHOBERT
- * @brief	Driving a DC motor (used for FIT0520 motors)
+ * @brief	Driving a DC motor (used for FIT0521 motors)
  ******************************************************************************
  */
 
@@ -10,14 +10,10 @@
 
 /* Exported functions --------------------------------------------------------*/
 
-/**
- * @defgroup Motor initialization functions
- */
-
-/**	@brief	Init of the MOT_HandleTypeDef structure with the timer settings
- *	@param	Motor is a MOT_HandleTypeDef
- *	@param 	htim is a TIM handle
- *  @param  Channel is the TIM Channel used
+/**	MOT_InitTimer : Initialization of MOT_HandleTypeDef structure
+ *	@param	Motor MOT_HandleTypeDef
+ *	@param 	htim TIM_HandleTypeDef
+ *  @param  Channel TIM Channel used
  *	@retval HAL status
  */
 uint8_t MOT_InitTimer(MOT_HandleTypeDef* Motor, TIM_HandleTypeDef *htim, uint32_t Channel){
@@ -30,12 +26,12 @@ uint8_t MOT_InitTimer(MOT_HandleTypeDef* Motor, TIM_HandleTypeDef *htim, uint32_
 	return 0;
 }
 
-/**	@brief	Init of the MOT_HandleTypeDef structure with the GPIOs settings
- *	@param	Motor is a MOT_HandleTypeDef
- *	@param 	IN1_GPIOx is a GPIOx where x can be (A..K) to select the GPIO peripheral
- *  @param  IN1_GPIO_Pin specifies the port bit
- *	@param 	IN2_GPIOx is a GPIOx where x can be (A..K) to select the GPIO peripheral
- *  @param  IN2_GPIO_Pin specifies the port bit
+/**	MOT_InitGPIOs :	Initialization of MOT_HandleTypeDef structure
+ *	@param	Motor MOT_HandleTypeDef
+ *	@param 	IN1_GPIOx GPIO port
+ *  @param  IN1_GPIO_Pin GPIO pin
+ *	@param 	IN2_GPIOx GPIO port
+ *  @param  IN2_GPIO_Pin GPIO pin
  */
 void MOT_InitGPIOs(MOT_HandleTypeDef* Motor, GPIO_TypeDef* IN1_GPIOx, uint16_t IN1_GPIO_Pin,
 		GPIO_TypeDef* IN2_GPIOx, uint16_t IN2_GPIO_Pin){
@@ -46,8 +42,8 @@ void MOT_InitGPIOs(MOT_HandleTypeDef* Motor, GPIO_TypeDef* IN1_GPIOx, uint16_t I
 }
 
 
-/**	@brief	Set coefficient for the error correction of the motor
- *	@param	Motor is a MOT_HandleTypeDef
+/**	MOT_SetCoeff : Set coefficient for the error correction of the motor
+ *	@param	Motor MOT_HandleTypeDef
  *	@param 	Kp coefficient
  *	@param 	Ki coefficient
  */
@@ -58,17 +54,10 @@ void MOT_SetCoeff(MOT_HandleTypeDef* Motor, float Kp, float Ki){
 
 
 /**
- * @defgroup Motor initialization functions
+ * MOT_SetDirection : Set the direction of the motor
+ * @param Motor MOT_HandleTypeDef
+ * @param direction
  */
-
-/*	@brief	Set the direction of the motor
- *	@param	Motor is a MOT_HandleTypeDef
- *	@param	direction specifies the driver function applied to the motor
- *		@arg	MOT_FUNCTIONS_STOP
- *		@arg 	MOT_FUNCTIONS_FORWARD
- *		@arg 	MOT_FUNCTIONS_REVERSE
- */
-
 void MOT_SetDirection(MOT_HandleTypeDef* Motor, uint8_t direction){
 	switch(direction){
 
@@ -93,9 +82,10 @@ void MOT_SetDirection(MOT_HandleTypeDef* Motor, uint8_t direction){
 	}
 }
 
-/*	@brief	Set the duty cycle of the PWM signal
- *	@param	Motor is a MOT_HandleTypeDef
- *	@param	duty_cycle is value between 0 and 100
+/**
+ * MOT_SetDutyCycle : Set the duty cycle of the PWM signal
+ * @param Motor MOT_HandleTypeDef
+ * @param duty_cycle Value between 0 and 100
  */
 void MOT_SetDutyCycle(MOT_HandleTypeDef* Motor, float duty_cycle){
 	if(duty_cycle > 80) duty_cycle = 80;

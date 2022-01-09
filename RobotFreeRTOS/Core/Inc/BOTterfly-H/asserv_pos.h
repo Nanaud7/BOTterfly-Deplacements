@@ -11,11 +11,11 @@
 #define INC_BOTTERFLY_H_ASSERV_POS_H_
 
 /* Includes ------------------------------------------------------------------*/
+#include <BOTterfly-H/odometry.h>
 #include <stdio.h>
 #include <math.h>
 #include "BOTterfly-H/modules.h"
 #include "BOTterfly-H/asserv_vit.h"
-#include "BOTterfly-H/odo.h"
 #include "BOTterfly-H/shellOS.h"
 
 /* Exported types ------------------------------------------------------------*/

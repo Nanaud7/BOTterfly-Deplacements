@@ -1,1 +1,1 @@
-strategy.c:26:6:strategyInit	4	static
+strategy.c:25:6:STRAT_strategyInit	4	static

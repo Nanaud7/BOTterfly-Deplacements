@@ -2,7 +2,7 @@
 "./Core/Src/BOTterfly-C/asserv_vit.o"
 "./Core/Src/BOTterfly-C/encoder.o"
 "./Core/Src/BOTterfly-C/motor.o"
-"./Core/Src/BOTterfly-C/odo.o"
+"./Core/Src/BOTterfly-C/odometry.o"
 "./Core/Src/BOTterfly-C/shellOS.o"
 "./Core/Src/BOTterfly-C/strategy.o"
 "./Core/Src/freertos.o"

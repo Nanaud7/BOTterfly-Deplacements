@@ -109,12 +109,12 @@ void Pos_ControlLoop_2steps(){
 	/* ODOMETRY ------------------------*/
 	int32_t ticksLeft = ENC_GetCnt(&CodeurGauche);
 	int32_t ticksRight = ENC_GetCnt(&CodeurDroite);
-	Odo_OdometryUpdate(ticksLeft, ticksRight);
+	ODO_OdometryUpdate(ticksLeft, ticksRight);
 
 	/* ROTATION ------------------------*/
-	double angleToTarget = atan2(targetY - Odo_GetY(), targetX - Odo_GetX());
+	double angleToTarget = atan2(targetY - ODO_GetY(), targetX - ODO_GetX());
 	// Rotation direction
-	double angleRelative = toZeroTwoPi(angleToTarget) - toZeroTwoPi(Odo_GetO());
+	double angleRelative = toZeroTwoPi(angleToTarget) - toZeroTwoPi(ODO_GetO());
 	if(angleRelative > M_PI) angleRelative = angleRelative - M_TWOPI;
 	else if(angleRelative < (-M_PI)) angleRelative = angleRelative + M_TWOPI;
 	if (angleRelativeInitial == 0) angleRelativeInitial = angleRelative;
@@ -123,7 +123,7 @@ void Pos_ControlLoop_2steps(){
 	rotationProgress = toZeroOne(rotationProgress);
 
 	/* MOVE ----------------------------*/
-	double distanceToTarget = sqrt(pow(targetX - Odo_GetX(),2) + pow(targetY - Odo_GetY(),2));
+	double distanceToTarget = sqrt(pow(targetX - ODO_GetX(),2) + pow(targetY - ODO_GetY(),2));
 	if (distanceToTargetInitial == 0) distanceToTargetInitial = distanceToTarget;
 	// Progression
 	double moveProgress = 1 - toZeroOne(distanceToTarget / distanceToTargetInitial);
@@ -162,8 +162,8 @@ void Pos_ControlLoop_2steps(){
 		// Contrôle de la vitesse
 		double spin = POS_ROT_SMAX * speedCurve(rotationProgress, 1);
 		spin += POS_ROT_SMIN * (1 - rotationProgress);
-		vit_SpeedControl(&MoteurGauche, &CodeurGauche, ticksLeft, spin);
-		vit_SpeedControl(&MoteurDroite, &CodeurDroite, ticksRight, spin);
+		VIT_SpeedControl(&MoteurGauche, &CodeurGauche, ticksLeft, spin);
+		VIT_SpeedControl(&MoteurDroite, &CodeurDroite, ticksRight, spin);
 
 		// Stop conditions
 		//printf("spin = %lf\r\n", spin);
@@ -189,16 +189,16 @@ void Pos_ControlLoop_2steps(){
 		double spCorrection = 1 - fabs(angleRelative);
 
 		if(distanceToTarget < 50){
-			vit_SpeedControl(&MoteurGauche, &CodeurGauche, ticksLeft, speed);
-			vit_SpeedControl(&MoteurDroite, &CodeurDroite, ticksRight, speed);
+			VIT_SpeedControl(&MoteurGauche, &CodeurGauche, ticksLeft, speed);
+			VIT_SpeedControl(&MoteurDroite, &CodeurDroite, ticksRight, speed);
 		}
 		else{
 			if(angleRelative < 0){
-				vit_SpeedControl(&MoteurGauche, &CodeurGauche, ticksLeft, speed);
-				vit_SpeedControl(&MoteurDroite, &CodeurDroite, ticksRight, speed * spCorrection);
+				VIT_SpeedControl(&MoteurGauche, &CodeurGauche, ticksLeft, speed);
+				VIT_SpeedControl(&MoteurDroite, &CodeurDroite, ticksRight, speed * spCorrection);
 			} else{
-				vit_SpeedControl(&MoteurGauche, &CodeurGauche, ticksLeft, speed * spCorrection);
-				vit_SpeedControl(&MoteurDroite, &CodeurDroite, ticksRight, speed);
+				VIT_SpeedControl(&MoteurGauche, &CodeurGauche, ticksLeft, speed * spCorrection);
+				VIT_SpeedControl(&MoteurDroite, &CodeurDroite, ticksRight, speed);
 			}
 		}
 

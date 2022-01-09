@@ -29,8 +29,8 @@
 #include <stdlib.h>
 #include "BOTterfly-H/shellOS.h"
 #include "BOTterfly-H/modules.h"
+#include <BOTterfly-H/odometry.h>
 #include "BOTterfly-H/strategy.h"
-#include "BOTterfly-H/odo.h"
 #include "BOTterfly-H/asserv_vit.h"
 #include "BOTterfly-H/asserv_pos.h"
 /* USER CODE END Includes */
@@ -153,17 +153,15 @@ void vTaskAsserv(void * p){
 
 	/* Initialisation Encodeur Gauche -------------------*/
 	ENC_InitTimer(&CodeurGauche, &htim2, TIM_CHANNEL_1, TIM_CHANNEL_2);
-	ENC_SetTicksPerRev(&CodeurGauche, 1364.8);
-	CodeurGauche.TicksCoeff = 0.0821596; // 0.0821596
+	ENC_SetMillimeterPerTick(&CodeurGauche, 0.08200);
 
 	/* Initialisation Encodeur Droite -------------------*/
 	ENC_InitTimer(&CodeurDroite, &htim3, TIM_CHANNEL_1, TIM_CHANNEL_2);
-	ENC_SetTicksPerRev(&CodeurDroite, 1364.8);
-	CodeurDroite.TicksCoeff = 0.0822777; // 0.0822777
+	ENC_SetMillimeterPerTick(&CodeurDroite, 0.08125);
 
 	/* Initialisation Odometrie -------------------------*/
-	Odo_Init();
-	strategyInit();
+	ODO_Init();
+	STRAT_strategyInit();
 
 	while(1){
 		if(isArrived()){

@@ -2,59 +2,63 @@
  ******************************************************************************
  * @file	odo.c
  * @author 	Arnaud CHOBERT
- * @brief	Odometry of BOTterfly
+ * @brief	Odometry for BOTterfly
  ******************************************************************************
  */
 
-#include <BOTterfly-H/odo.h>
+#include <BOTterfly-H/odometry.h>
 
 /* Macros --------------------------------------------------------------------*/
-
 /* End of macros -------------------------------------------------------------*/
 
 /* Variables -----------------------------------------------------------------*/
-struct ODO_HandleTypeDef Odometry;
 double x = 0; // Position x of the robot in mm
 double y = 0; // Position y of the robot in mm
 double o = 0; // Orientation of the robot in rad
-double leftSpeed = 0, rightSpeed = 0;
 
 /* End of variables ----------------------------------------------------------*/
 
 /* Functions -----------------------------------------------------------------*/
 
 /**
- * Initialization of odometry module
- * @return 0
+ * ODO_Init : Initialization of odometry module
  */
-uint8_t Odo_Init(){
-	Odometry.leftTicks = 0;
-	Odometry.rightTicks = 0;
-
+void ODO_Init(){
 	x = 0;
 	y = 0;
-	o = 0;
-	return 0;
+	o = (-M_PI/2);
 }
 
-double Odo_GetX(){
+/**
+ * ODO_GetX : Get x coordinate of the robot
+ * @return x
+ */
+double ODO_GetX(){
 	return x;
 }
 
-double Odo_GetY(){
+/**
+ * ODO_GetY : Get y coordinate of the robot
+ * @return y
+ */
+double ODO_GetY(){
 	return y;
 }
 
-double Odo_GetO(){
+/**
+ * ODO_GetO : Get o angle of the robot
+ * @return o
+ */
+double ODO_GetO(){
 	return o;
 }
 
 /**
- *
- * @param Odo
- * @return
+ * ODO_OdometryUpdate : Update of robot's coordinate
+ * @param leftTicks	Ticks from left encoder
+ * @param rightTicks Ticks from right encoder
  */
-uint8_t Odo_OdometryUpdate(int32_t leftTicks, int32_t rightTicks){
+void ODO_OdometryUpdate(int32_t leftTicks, int32_t rightTicks){
 
 	leftTicks = leftTicks * (-1);
 
@@ -73,14 +77,6 @@ uint8_t Odo_OdometryUpdate(int32_t leftTicks, int32_t rightTicks){
 
 	if(o < (-1) * M_PI)
 		o += M_PI * 2.0f;
-
-	//printf("x:%.1f\t\to:%.1f\r\n", x, o);
-	//printf("left:%d\t\tright:%d\r\n", Odo->leftTicks, Odo->rightTicks);
-
-	//ENC_ResetCnt(Odo->LeftEncoder);
-	//ENC_ResetCnt(Odo->RightEncoder);
-
-	return 0;
 }
 
 /* End of functions ----------------------------------------------------------*/

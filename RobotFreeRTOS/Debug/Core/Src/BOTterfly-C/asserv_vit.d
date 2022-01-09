@@ -30,7 +30,7 @@ Core/Src/BOTterfly-C/asserv_vit.o: ../Core/Src/BOTterfly-C/asserv_vit.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/BOTterfly-H/modules.h ../Core/Inc/BOTterfly-H/motor.h \
- ../Core/Inc/BOTterfly-H/odo.h ../Core/Inc/BOTterfly-H/shellOS.h \
+ ../Core/Inc/BOTterfly-H/odometry.h ../Core/Inc/BOTterfly-H/shellOS.h \
  ../Core/Inc/usart.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
  ../Core/Inc/FreeRTOSConfig.h \
@@ -111,7 +111,7 @@ Core/Src/BOTterfly-C/asserv_vit.o: ../Core/Src/BOTterfly-C/asserv_vit.c \
 
 ../Core/Inc/BOTterfly-H/motor.h:
 
-../Core/Inc/BOTterfly-H/odo.h:
+../Core/Inc/BOTterfly-H/odometry.h:
 
 ../Core/Inc/BOTterfly-H/shellOS.h:
 

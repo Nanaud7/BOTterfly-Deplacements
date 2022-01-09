@@ -1,3 +1,1 @@
-asserv_vit.c:28:9:vit_SetTimer	16	static
-asserv_vit.c:43:9:vit_SetConsigne	16	static
-asserv_vit.c:56:9:vit_SpeedControl	72	static
+asserv_vit.c:28:9:VIT_SpeedControl	64	static
