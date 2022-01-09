@@ -44,8 +44,12 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
- ../Core/Inc/usart.h ../Core/Inc/main.h ../Core/Inc/gpio.h \
- ../Core/Inc/BOTterfly-H/shellOS.h
+ ../Core/Inc/tim.h ../Core/Inc/main.h ../Core/Inc/usart.h \
+ ../Core/Inc/gpio.h ../Core/Inc/BOTterfly-H/shellOS.h \
+ ../Core/Inc/BOTterfly-H/modules.h ../Core/Inc/BOTterfly-H/motor.h \
+ ../Core/Inc/BOTterfly-H/encoder.h ../Core/Inc/BOTterfly-H/odo.h \
+ ../Core/Inc/BOTterfly-H/strategy.h ../Core/Inc/BOTterfly-H/asserv_vit.h \
+ ../Core/Inc/BOTterfly-H/asserv_pos.h
 
 ../Core/Inc/main.h:
 
@@ -139,10 +143,26 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 
 ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
 
-../Core/Inc/usart.h:
+../Core/Inc/tim.h:
 
 ../Core/Inc/main.h:
+
+../Core/Inc/usart.h:
 
 ../Core/Inc/gpio.h:
 
 ../Core/Inc/BOTterfly-H/shellOS.h:
+
+../Core/Inc/BOTterfly-H/modules.h:
+
+../Core/Inc/BOTterfly-H/motor.h:
+
+../Core/Inc/BOTterfly-H/encoder.h:
+
+../Core/Inc/BOTterfly-H/odo.h:
+
+../Core/Inc/BOTterfly-H/strategy.h:
+
+../Core/Inc/BOTterfly-H/asserv_vit.h:
+
+../Core/Inc/BOTterfly-H/asserv_pos.h:

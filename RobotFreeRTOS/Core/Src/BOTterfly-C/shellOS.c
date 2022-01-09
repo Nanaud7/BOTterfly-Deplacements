@@ -29,7 +29,7 @@ typedef struct{
 /* Variables -----------------------------------------------------------------*/
 UART_HandleTypeDef* shell_huart = NULL;
 char starting[] = "\r\n\r\n===== Shell =====\r\n";
-char prompt[] = "@Nucleo-G431 >> ";
+char prompt[] = "@Nucleo-F446 >> ";
 
 char c = 0; // Caractère reçu
 uint8_t pos = 0; // Position dans le buffer
@@ -109,8 +109,8 @@ uint8_t shell_init(UART_HandleTypeDef* huart) {
 	uart_write(starting,sizeof(starting));
 	uart_write(prompt,sizeof(prompt));
 
-	shell_add("help", sh_help, (char *)"help");
-	shell_add("f", sh_example, "example command");
+	shell_add("help", sh_help, "Menu d'aide");
+	shell_add("f", sh_example, "Exemple de commande");
 
 	qShell = xQueueCreate(1,sizeof(char));
 
@@ -120,9 +120,16 @@ uint8_t shell_init(UART_HandleTypeDef* huart) {
 	return 0;
 }
 
-int shell_add(char c, int (* pfunc)(int argc, char ** argv), char * description) {
-	if (shell_func_list_size < _SHELL_FUNC_LIST_MAX_SIZE) {
-		shell_func_list[shell_func_list_size].c = c;
+/**
+ * shell_add : Ajout d'une commande
+ * @param cmd Commande à rentrer
+ * @param pfunc Référence vers la fonction à appeler
+ * @param description Description de la fonction pour le menu d'aide
+ * @return 0 si le nombre de commande est valide
+ */
+uint8_t shell_add(char * cmd, int (* pfunc)(int argc, char ** argv), char * description) {
+	if (shell_func_list_size < SHELL_FUNC_LIST_MAX_SIZE) {
+		shell_func_list[shell_func_list_size].cmd = cmd;
 		shell_func_list[shell_func_list_size].func = pfunc;
 		shell_func_list[shell_func_list_size].description = description;
 		shell_func_list_size++;
@@ -132,19 +139,68 @@ int shell_add(char c, int (* pfunc)(int argc, char ** argv), char * description)
 	return -1;
 }
 
-int shell_exec(char c, char * buf) {
-	int i;
+/**
+ * shell_char_received : Traitement du dernier caractère reçu
+ * @return 0
+ */
+uint8_t shell_char_received() {
+	xQueueReceive(qShell, &c, portMAX_DELAY);
 
+	switch (c) {
+	case '\r':
+		// Appui sur la touche ENTER
+		printf("\r\n");
+		buf[pos++] = 0;
+		pos = 0;
+		shell_exec(buf);
+		uart_write(prompt,sizeof(prompt));
+		break;
+
+	case '\b':
+		// Appui sur la touche DELETE
+		if (pos > 0) {
+			pos--;
+			uart_write(backspace, 3);
+		}
+		break;
+
+	default:
+		if (pos < SHELL_BUFFER_SIZE) {
+			uart_write(&c, 1);
+			buf[pos++] = c;
+		}
+	}
+
+	return 0;
+}
+
+/**
+ * shell_exec : Recherche et execution de la commande
+ * @param cmd Commande à traiter
+ * @return Référence vers la fonction à exécuter
+ */
+uint8_t shell_exec(char * cmd) {
 	int argc;
-	char * argv[ARGC_MAX];
+	char * argv[SHELL_ARGC_MAX];
 	char *p;
 
-	for(i = 0 ; i < shell_func_list_size ; i++) {
-		if (shell_func_list[i].c == c) {
-			argc = 1;
-			argv[0] = buf;
+	// Séparation du header et des paramètres
+	char header[SHELL_CMD_MAX_SIZE] = "";
+	int h = 0;
 
-			for(p = buf ; *p != '\0' && argc < ARGC_MAX ; p++){
+	while(cmd[h] != ' ' && h < SHELL_CMD_MAX_SIZE){
+		header[h] = cmd[h];
+		h++;
+	}
+	header[h] = '\0';
+
+	// Recherche de la commande et paramètres
+	for(int i = 0 ; i < shell_func_list_size ; i++) {
+		if (!strcmp(shell_func_list[i].cmd, header)) {
+			argc = 1;
+			argv[0] = cmd;
+
+			for(p = cmd ; *p != '\0' && argc < SHELL_ARGC_MAX ; p++){
 				if(*p == ' ') {
 					*p = '\0';
 					argv[argc++] = p+1;
@@ -154,55 +210,8 @@ int shell_exec(char c, char * buf) {
 			return shell_func_list[i].func(argc, argv);
 		}
 	}
-	printf("%c: no such command\r\n", c);
+	printf("%s: command not found\r\n", cmd);
 	return -1;
 }
 
-static char buf[BUFFER_SIZE];
-static char backspace[] = "\b \b";
-static char prompt[] = "> ";
-
-int shell_run() {
-	int reading = 0;
-	int pos = 0;
-
-	while (1) {
-		uart_write(prompt, 2);
-		reading = 1;
-
-		while(reading) {
-			//char c = uart_read();
-			char c = 0;
-			xQueueReceive(qShell, &c, portMAX_DELAY);
-
-			switch (c) {
-			//process RETURN key
-			case '\r':
-				//case '\n':
-				printf("\r\n");    //finish line
-				buf[pos++] = 0;     //to use cprintf...
-				printf(":%s\r\n", buf);
-				reading = 0;        //exit read loop
-				pos = 0;            //reset buffer
-				break;
-				//backspace
-			case '\b':
-				if (pos > 0) {      //is there a char to delete?
-					pos--;          //remove it in buffer
-
-					uart_write(backspace, 3);
-				}
-				break;
-				//other characters
-			default:
-				//only store characters if buffer has space
-				if (pos < BUFFER_SIZE) {
-					uart_write(&c, 1);
-					buf[pos++] = c; //store
-				}
-			}
-		}
-		shell_exec(buf[0], buf);
-	}
-	return 0;
-}
+/* End of functions ----------------------------------------------------------*/

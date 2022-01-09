@@ -1,0 +1,8 @@
+shellOS.c:53:9:__io_putchar	16	static
+shellOS.c:66:9:uart_write	16	static
+shellOS.c:79:9:sh_help	24	static
+shellOS.c:93:9:sh_example	24	static
+shellOS.c:106:9:shell_init	16	static
+shellOS.c:130:9:shell_add	24	static
+shellOS.c:146:9:shell_char_received	8	static
+shellOS.c:182:9:shell_exec	80	static

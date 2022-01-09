@@ -1,0 +1,5 @@
+odo.c:30:9:Odo_Init	4	static
+odo.c:40:8:Odo_GetX	4	static
+odo.c:44:8:Odo_GetY	4	static
+odo.c:48:8:Odo_GetO	4	static
+odo.c:57:9:Odo_OdometryUpdate	32	static

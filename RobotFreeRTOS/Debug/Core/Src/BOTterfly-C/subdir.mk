@@ -5,13 +5,31 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Core/Src/BOTterfly-C/shellOS.c 
+../Core/Src/BOTterfly-C/asserv_pos.c \
+../Core/Src/BOTterfly-C/asserv_vit.c \
+../Core/Src/BOTterfly-C/encoder.c \
+../Core/Src/BOTterfly-C/motor.c \
+../Core/Src/BOTterfly-C/odo.c \
+../Core/Src/BOTterfly-C/shellOS.c \
+../Core/Src/BOTterfly-C/strategy.c 
 
 OBJS += \
-./Core/Src/BOTterfly-C/shellOS.o 
+./Core/Src/BOTterfly-C/asserv_pos.o \
+./Core/Src/BOTterfly-C/asserv_vit.o \
+./Core/Src/BOTterfly-C/encoder.o \
+./Core/Src/BOTterfly-C/motor.o \
+./Core/Src/BOTterfly-C/odo.o \
+./Core/Src/BOTterfly-C/shellOS.o \
+./Core/Src/BOTterfly-C/strategy.o 
 
 C_DEPS += \
-./Core/Src/BOTterfly-C/shellOS.d 
+./Core/Src/BOTterfly-C/asserv_pos.d \
+./Core/Src/BOTterfly-C/asserv_vit.d \
+./Core/Src/BOTterfly-C/encoder.d \
+./Core/Src/BOTterfly-C/motor.d \
+./Core/Src/BOTterfly-C/odo.d \
+./Core/Src/BOTterfly-C/shellOS.d \
+./Core/Src/BOTterfly-C/strategy.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

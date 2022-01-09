@@ -13,24 +13,28 @@
 /* Includes ------------------------------------------------------------------*/
 #include <stdio.h>
 #include <stdint.h>
+#include <string.h>
 #include "usart.h"
 #include "FreeRTOS.h"
 #include "queue.h"
 
 /* Exported types ------------------------------------------------------------*/
-
 /* End of exported types -----------------------------------------------------*/
+
+/* Exported macros -----------------------------------------------------------*/
 #define UART_DEVICE huart2
+/* End of exported macros ----------------------------------------------------*/
 
-#define _SHELL_FUNC_LIST_MAX_SIZE 64
-
+/* External variables --------------------------------------------------------*/
+extern char c;
 extern QueueHandle_t qShell;
+/* End of external variables -------------------------------------------------*/
 
+/* Exported functions --------------------------------------------------------*/
 uint8_t uart_write(char *s, uint16_t size);
 uint8_t shell_init(UART_HandleTypeDef* huart);
-void shell_char_received();
-int shell_add(char c, int (* pfunc)(int argc, char ** argv), char * description);
-int shell_exec(char c, char * buf);
-int shell_run();
+uint8_t shell_add(char * cmd, int (* pfunc)(int argc, char ** argv), char * description);
+uint8_t shell_char_received();
+uint8_t shell_exec(char * cmd);
 
 #endif /* INC_SHELL_OS_H_ */
