@@ -6,7 +6,7 @@
  ******************************************************************************
  */
 
-#include <BOTterfly-H/asserv_vit.h>
+#include <BOTterfly-H/ctrl_speed.h>
 
 /* Macros --------------------------------------------------------------------*/
 #define SPEED_CONTROL_FREQUENCY 50
@@ -20,12 +20,12 @@
 /* Functions -----------------------------------------------------------------*/
 
 /**
- * VIT_SpeedControl : Speed control function called every 20ms
+ * CTRL_SpeedControl : Speed control function called every 20ms
  * @param Motor Motor HandleTypeDef
  * @param Encoder Encoder HandleTypeDef
  * @return TBD
  */
-int32_t VIT_SpeedControl(MOT_HandleTypeDef* Motor, ENC_HandleTypeDef* Encoder,
+int32_t CTRL_SpeedControl(MOT_HandleTypeDef* Motor, ENC_HandleTypeDef* Encoder,
 		int32_t ticks, double consigne){
 
 	// Force tick to positive value

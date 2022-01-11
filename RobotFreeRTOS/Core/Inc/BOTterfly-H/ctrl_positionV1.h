@@ -1,25 +1,24 @@
 /**
  ******************************************************************************
- * @file	asserv_vit.h
+ * @file	ctrl_positionV1.h
  * @author 	Arnaud CHOBERT
- * @brief	Speed loop control for BOTterfly
+ * @brief	Position control of BOTterfly V1
  ******************************************************************************
  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef INC_CONTROL_H_
-#define INC_CONTROL_H_
+#ifndef INC_BOTTERFLY_H_CTRL_POSITIONV1_H_
+#define INC_BOTTERFLY_H_CTRL_POSITIONV1_H_
 
 /* Includes ------------------------------------------------------------------*/
-#include <BOTterfly-H/encoder.h>
-#include <BOTterfly-H/modules.h>
-#include <BOTterfly-H/motor.h>
-#include <BOTterfly-H/shellOS.h>
+#include <BOTterfly-H/ctrl_speed.h>
+#include <BOTterfly-H/odometry.h>
+#include <stdio.h>
 #include <math.h>
-#include "tim.h"
+#include "BOTterfly-H/modules.h"
+#include "BOTterfly-H/shellOS.h"
 
 /* Exported types ------------------------------------------------------------*/
-
 /* End of exported types -----------------------------------------------------*/
 
 /* Exported macros -----------------------------------------------------------*/
@@ -29,9 +28,10 @@
 /* End of external variables -------------------------------------------------*/
 
 /* Exported functions --------------------------------------------------------*/
-int32_t VIT_SpeedControl(MOT_HandleTypeDef* Motor, ENC_HandleTypeDef* Encoder,
-		int32_t ticks, double consigne);
-
+void CTRL_Pos1_PositionControl();
+void CTRL_Pos1_SetTargetX(double x);
+void CTRL_Pos1_SetTargetY(double y);
+uint8_t isArrived();
 /* End of exported functions -------------------------------------------------*/
 
-#endif /* INC_CONTROL_H_ */
+#endif /* INC_BOTTERFLY_H_CTRL_POSITIONV1_H_ */

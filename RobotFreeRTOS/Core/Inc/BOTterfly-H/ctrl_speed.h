@@ -1,24 +1,25 @@
 /**
  ******************************************************************************
- * @file	asserv_pos.h
+ * @file	asserv_vit.h
  * @author 	Arnaud CHOBERT
- * @brief	Asservissement en position de BOTterfly
+ * @brief	Speed loop control for BOTterfly
  ******************************************************************************
  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef INC_BOTTERFLY_H_ASSERV_POS_H_
-#define INC_BOTTERFLY_H_ASSERV_POS_H_
+#ifndef INC_CONTROL_H_
+#define INC_CONTROL_H_
 
 /* Includes ------------------------------------------------------------------*/
-#include <BOTterfly-H/odometry.h>
-#include <stdio.h>
+#include <BOTterfly-H/encoder.h>
+#include <BOTterfly-H/modules.h>
+#include <BOTterfly-H/motor.h>
+#include <BOTterfly-H/shellOS.h>
 #include <math.h>
-#include "BOTterfly-H/modules.h"
-#include "BOTterfly-H/asserv_vit.h"
-#include "BOTterfly-H/shellOS.h"
+#include "tim.h"
 
 /* Exported types ------------------------------------------------------------*/
+
 /* End of exported types -----------------------------------------------------*/
 
 /* Exported macros -----------------------------------------------------------*/
@@ -28,10 +29,9 @@
 /* End of external variables -------------------------------------------------*/
 
 /* Exported functions --------------------------------------------------------*/
-void Pos_ControlLoop_2steps();
-void setTargetX(double x);
-void setTargetY(double y);
-uint8_t isArrived();
+int32_t CTRL_SpeedControl(MOT_HandleTypeDef* Motor, ENC_HandleTypeDef* Encoder,
+		int32_t ticks, double consigne);
+
 /* End of exported functions -------------------------------------------------*/
 
-#endif /* INC_BOTTERFLY_H_ASSERV_POS_H_ */
+#endif /* INC_CONTROL_H_ */

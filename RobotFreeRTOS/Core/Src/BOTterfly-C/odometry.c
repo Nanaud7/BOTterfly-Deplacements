@@ -26,7 +26,7 @@ double o = 0; // Orientation of the robot in rad
 void ODO_Init(){
 	x = 0;
 	y = 0;
-	o = (-M_PI/2);
+	o = 0;
 }
 
 /**

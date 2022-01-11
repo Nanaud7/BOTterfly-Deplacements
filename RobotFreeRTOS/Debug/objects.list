@@ -1,5 +1,5 @@
-"./Core/Src/BOTterfly-C/asserv_pos.o"
-"./Core/Src/BOTterfly-C/asserv_vit.o"
+"./Core/Src/BOTterfly-C/ctrl_positionV2.o"
+"./Core/Src/BOTterfly-C/ctrl_speed.o"
 "./Core/Src/BOTterfly-C/encoder.o"
 "./Core/Src/BOTterfly-C/motor.o"
 "./Core/Src/BOTterfly-C/odometry.o"

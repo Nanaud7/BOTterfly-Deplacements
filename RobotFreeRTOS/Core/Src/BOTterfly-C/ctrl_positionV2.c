@@ -1,66 +1,63 @@
 /**
  ******************************************************************************
- * @file	asserv_pos.c
+ * @file	ctrl_positionV2.c
  * @author 	Arnaud CHOBERT
- * @brief	Position control of BOTterfly
+ * @brief	Position control of BOTterfly V2
  ******************************************************************************
  */
 
-#include "BOTterfly-H/asserv_pos.h"
+#include "BOTterfly-H/ctrl_positionV2.h"
 
 /* Types ---------------------------------------------------------------------*/
 /* End of types --------------------------------------------------------------*/
 
 /* Macros --------------------------------------------------------------------*/
 // Speed minimums and maximums
-#define POS_LIN_SMAX 150
-#define POS_LIN_SMIN 50
+#define POS_LIN_SMAX 120
+#define POS_LIN_SMIN 80
 #define POS_ROT_SMAX 120
 #define POS_ROT_SMIN 80
 
 // States of the machine state
-#define STAND_BY 0
-#define ROTATION 1
-#define MOVE 2
+#define POS_STATE_STANDBY 0
+#define POS_STATE_MOVE 1
 
 /* End of macros -------------------------------------------------------------*/
 
 /* Variables -----------------------------------------------------------------*/
-uint8_t state = STAND_BY;
+uint8_t state = POS_STATE_STANDBY;
 double targetX = 0, targetY = 0;
 
 double distanceToTargetInitial = 0;
 double angleRelativeInitial = 0;
-
-int32_t tckG = 0, tckD = 0; // Ticks measured (tests)
 
 /* End of variables ----------------------------------------------------------*/
 
 /* Functions -----------------------------------------------------------------*/
 
 /**
- * setTargetX
+ * setTargetX : Set new x target coordinate
  * @param x x coordinate
  */
-void setTargetX(double x){
+void CTRL_Pos2_SetTargetX(double x){
 	targetX = x;
 	printf("setTargetX done with %lf\r\n",targetX);
 }
 
 /**
- * setTargetY
+ * setTargetY : Set new y target coordinate
  * @param y y coordinate
  */
-void setTargetY(double y){
+void CTRL_Pos2_SetTargetY(double y){
 	targetY = y;
 	printf("setTargetY done with %lf\r\n",targetY);
 }
 
 /**
- * isArrived
+ * isArrived : Check if the robot is arrvied to its target
  * @return 1 if BOTterfly arrived to its target
  */
-uint8_t isArrived(){
+uint8_t CTRL_Pos2_isArrived(){
 	if(targetX == 0 && targetY == 0){
 		return 1;
 	} else{
@@ -103,12 +100,12 @@ double speedCurve(double x, double a){
 /**
  * Pos_ControlLoop_2steps
  */
-void Pos_ControlLoop_2steps(){
-	static double spin_previous = 0;
+void CTRL_Pos2_PositionControl(){
+	//printf("%d\t%d\r\n", (int)targetX, (int)targetY);
 
 	/* ODOMETRY ------------------------*/
-	int32_t ticksLeft = ENC_GetCnt(&CodeurGauche);
-	int32_t ticksRight = ENC_GetCnt(&CodeurDroite);
+	int16_t ticksLeft = ENC_GetCnt(&CodeurGauche);
+	int16_t ticksRight = ENC_GetCnt(&CodeurDroite);
 	ODO_OdometryUpdate(ticksLeft, ticksRight);
 
 	/* ROTATION ------------------------*/
@@ -128,91 +125,75 @@ void Pos_ControlLoop_2steps(){
 	// Progression
 	double moveProgress = 1 - toZeroOne(distanceToTarget / distanceToTargetInitial);
 
-	// Tests
-	tckG += ticksLeft;
-	tckD += ticksRight;
+	/* SPEED ---------------------------*/
+	double leftWheelSpeed = 0, rightWheelSpeed = 0;
 
-	/* STATE MACHINE -------------------*/
 	switch(state){
 
-	case STAND_BY:
+	case POS_STATE_STANDBY:
 		MOT_SetDutyCycle(&MoteurGauche, 0);
 		MOT_SetDutyCycle(&MoteurDroite, 0);
 
 		distanceToTargetInitial = 0;
 		angleRelativeInitial = 0;
 
-		if (!isArrived()) {
-			state = ROTATION;
+		if (!CTRL_Pos2_isArrived()) {
+			state = POS_STATE_MOVE;
 		}
 		break;
 
-	case ROTATION:
-		//printf("angleRelative = %lf\r\n", angleRelative);
-
-		// Choix du sens de rotation
-		if (angleRelative < M_PI && angleRelative > 0){
-			MOT_SetDirection(&MoteurGauche, MOT_FUNCTIONS_REVERSE);
-			MOT_SetDirection(&MoteurDroite, MOT_FUNCTIONS_FORWARD);
-		} else {
-			MOT_SetDirection(&MoteurGauche, MOT_FUNCTIONS_FORWARD);
-			MOT_SetDirection(&MoteurDroite, MOT_FUNCTIONS_REVERSE);
-		}
-
-		// Contrôle de la vitesse
-		double spin = POS_ROT_SMAX * speedCurve(rotationProgress, 1);
-		spin += POS_ROT_SMIN * (1 - rotationProgress);
-		VIT_SpeedControl(&MoteurGauche, &CodeurGauche, ticksLeft, spin);
-		VIT_SpeedControl(&MoteurDroite, &CodeurDroite, ticksRight, spin);
-
-		// Stop conditions
-		//printf("spin = %lf\r\n", spin);
-		if(spin == spin_previous && (angleRelative <= 0.1 && angleRelative >= -0.1)){
-			state = MOVE;
-		}
-
-		spin_previous = spin;
-
-		break;
-
-	case MOVE:
+	case POS_STATE_MOVE:
 		//printf("moveProgress = %lf\r\n", moveProgress);
+		//printf("distanceToTarget = %lf\r\n", distanceToTarget);
 		//printf("angleRelative = %lf\r\n", angleRelative);
 
-		// Choix du sens de rotation
-		MOT_SetDirection(&MoteurGauche, MOT_FUNCTIONS_FORWARD);
-		MOT_SetDirection(&MoteurDroite, MOT_FUNCTIONS_FORWARD);
-
-		// Contrôle de la vitesse
-		double speed = POS_LIN_SMAX * speedCurve(moveProgress, 1);
-		speed += POS_LIN_SMIN * (1 - moveProgress);
-		double spCorrection = 1 - fabs(angleRelative);
-
-		if(distanceToTarget < 50){
-			VIT_SpeedControl(&MoteurGauche, &CodeurGauche, ticksLeft, speed);
-			VIT_SpeedControl(&MoteurDroite, &CodeurDroite, ticksRight, speed);
-		}
-		else{
+		/* SPEED ---------------------------*/
+		if(moveProgress < 0.8 && rotationProgress > 0.7){
 			if(angleRelative < 0){
-				VIT_SpeedControl(&MoteurGauche, &CodeurGauche, ticksLeft, speed);
-				VIT_SpeedControl(&MoteurDroite, &CodeurDroite, ticksRight, speed * spCorrection);
+				leftWheelSpeed += POS_ROT_SMIN * (1 - rotationProgress);
+				rightWheelSpeed -= POS_ROT_SMIN * (1 - rotationProgress);
 			} else{
-				VIT_SpeedControl(&MoteurGauche, &CodeurGauche, ticksLeft, speed * spCorrection);
-				VIT_SpeedControl(&MoteurDroite, &CodeurDroite, ticksRight, speed);
+				leftWheelSpeed -= POS_ROT_SMIN * (1 - rotationProgress);
+				rightWheelSpeed += POS_ROT_SMIN * (1 - rotationProgress);
 			}
 		}
 
+		leftWheelSpeed += POS_LIN_SMAX * moveProgress;
+		rightWheelSpeed += POS_LIN_SMAX * moveProgress;
+
+		/* ROTATION DIRECTION --------------*/
+		if(fabs(angleRelative) > 0.5 && moveProgress < 0.5){
+			leftWheelSpeed = POS_ROT_SMIN + POS_ROT_SMAX * (1 - rotationProgress);
+			rightWheelSpeed = POS_ROT_SMIN + POS_ROT_SMAX * (1 - rotationProgress);
+
+			if (angleRelative < M_PI && angleRelative > 0){
+				MOT_SetDirection(&MoteurGauche, MOT_FUNCTIONS_REVERSE);
+				MOT_SetDirection(&MoteurDroite, MOT_FUNCTIONS_FORWARD);
+			} else {
+				MOT_SetDirection(&MoteurGauche, MOT_FUNCTIONS_FORWARD);
+				MOT_SetDirection(&MoteurDroite, MOT_FUNCTIONS_REVERSE);
+			}
+		} else{
+			MOT_SetDirection(&MoteurGauche, MOT_FUNCTIONS_FORWARD);
+			MOT_SetDirection(&MoteurDroite, MOT_FUNCTIONS_FORWARD);
+		}
+
+		CTRL_SpeedControl(&MoteurGauche, &CodeurGauche, ticksLeft, leftWheelSpeed);
+		CTRL_SpeedControl(&MoteurDroite, &CodeurDroite, ticksRight, rightWheelSpeed);
+
 		// Stop conditions
-		//printf("speed = %lf\r\n", speed);
-		if(angleRelative < (M_PI/2) && angleRelative > (-M_PI/2) && distanceToTarget < 10){
-			state = STAND_BY;
+		printf("%d\t%d\t%d\r\n", (int)leftWheelSpeed, (int)rightWheelSpeed, (int)(moveProgress*100));
+		if((angleRelative > (M_PI/2) || angleRelative < (-M_PI/2)) && fabs(moveProgress) > 0.5){
+			state = POS_STATE_STANDBY;
 			targetX = 0;
 			targetY = 0;
+			MOT_SetDutyCycle(&MoteurGauche, 0);
+			MOT_SetDutyCycle(&MoteurDroite, 0);
 		}
 		break;
 
 	default:
-		state = STAND_BY;
+		state = POS_STATE_STANDBY;
 		break;
 	}
 }

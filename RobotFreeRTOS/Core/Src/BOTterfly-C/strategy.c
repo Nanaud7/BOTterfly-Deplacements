@@ -27,11 +27,11 @@ void STRAT_strategyInit(){
 	strategy[0].y = 1;
 	strategy[0].dir = 1;
 
-	strategy[1].x = 100;
+	strategy[1].x = 200;
 	strategy[1].y = 100;
 	strategy[1].dir = 1;
 
-	strategy[2].x = 200;
+	strategy[2].x = 1;
 	strategy[2].y = 0;
 	strategy[2].dir = 1;
 

@@ -5,8 +5,8 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Core/Src/BOTterfly-C/asserv_pos.c \
-../Core/Src/BOTterfly-C/asserv_vit.c \
+../Core/Src/BOTterfly-C/ctrl_positionV2.c \
+../Core/Src/BOTterfly-C/ctrl_speed.c \
 ../Core/Src/BOTterfly-C/encoder.c \
 ../Core/Src/BOTterfly-C/motor.c \
 ../Core/Src/BOTterfly-C/odometry.c \
@@ -14,8 +14,8 @@ C_SRCS += \
 ../Core/Src/BOTterfly-C/strategy.c 
 
 OBJS += \
-./Core/Src/BOTterfly-C/asserv_pos.o \
-./Core/Src/BOTterfly-C/asserv_vit.o \
+./Core/Src/BOTterfly-C/ctrl_positionV2.o \
+./Core/Src/BOTterfly-C/ctrl_speed.o \
 ./Core/Src/BOTterfly-C/encoder.o \
 ./Core/Src/BOTterfly-C/motor.o \
 ./Core/Src/BOTterfly-C/odometry.o \
@@ -23,8 +23,8 @@ OBJS += \
 ./Core/Src/BOTterfly-C/strategy.o 
 
 C_DEPS += \
-./Core/Src/BOTterfly-C/asserv_pos.d \
-./Core/Src/BOTterfly-C/asserv_vit.d \
+./Core/Src/BOTterfly-C/ctrl_positionV2.d \
+./Core/Src/BOTterfly-C/ctrl_speed.d \
 ./Core/Src/BOTterfly-C/encoder.d \
 ./Core/Src/BOTterfly-C/motor.d \
 ./Core/Src/BOTterfly-C/odometry.d \

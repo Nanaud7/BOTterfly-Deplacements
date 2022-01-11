@@ -1,0 +1,7 @@
+ctrl_positionV2.c:42:6:CTRL_Pos2_SetTargetX	16	static
+ctrl_positionV2.c:51:6:CTRL_Pos2_SetTargetY	16	static
+ctrl_positionV2.c:60:9:CTRL_Pos2_isArrived	8	static
+ctrl_positionV2.c:73:8:toZeroOne	16	static
+ctrl_positionV2.c:84:8:toZeroTwoPi	16	static
+ctrl_positionV2.c:94:8:speedCurve	40	static
+ctrl_positionV2.c:103:6:CTRL_Pos2_PositionControl	120	static
