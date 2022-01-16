@@ -1,0 +1,5 @@
+direction.c:5:9:Dir_Init	4	static
+direction.c:20:5:Dir_PhaseChange	16	static
+direction.c:30:10:Dir_Dir	8	static
+direction.c:114:9:Dir_VectPh	24	static
+direction.c:131:9:Dir_AddToF	4	static

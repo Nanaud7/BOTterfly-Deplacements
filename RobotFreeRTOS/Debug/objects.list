@@ -1,4 +1,4 @@
-"./Core/Src/BOTterfly-C/ctrl_positionV2.o"
+"./Core/Src/BOTterfly-C/ctrl_positionV1.o"
 "./Core/Src/BOTterfly-C/ctrl_speed.o"
 "./Core/Src/BOTterfly-C/encoder.o"
 "./Core/Src/BOTterfly-C/motor.o"

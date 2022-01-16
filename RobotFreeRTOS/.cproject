@@ -116,10 +116,11 @@
 						</toolChain>
 					</folderInfo>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.2124394352.1317436188" name="ctrl_positionV1.h" rcbsApplicability="disable" resourcePath="Core/Inc/BOTterfly-H/ctrl_positionV1.h" toolsToInvoke=""/>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.2124394352.164719024" name="ctrl_positionV2.h" rcbsApplicability="disable" resourcePath="Core/Inc/BOTterfly-H/ctrl_positionV2.h" toolsToInvoke=""/>
 					<sourceEntries>
-						<entry excluding="Inc/BOTterfly-H/ctrl_positionV1.h|Src/BOTterfly-C/ctrl_positionV1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
+						<entry excluding="Inc/BOTterfly-H/ctrl_positionV2.h|Src/BOTterfly-C/ctrl_positionV2.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

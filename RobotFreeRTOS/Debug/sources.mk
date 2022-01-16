@@ -20,6 +20,7 @@ OBJCOPY_BIN :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+Core/Inc/BOTterfly-H \
 Core/Src/BOTterfly-C \
 Core/Src \
 Core/Startup \

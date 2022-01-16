@@ -49,7 +49,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Core/Inc/BOTterfly-H/modules.h ../Core/Inc/BOTterfly-H/motor.h \
  ../Core/Inc/BOTterfly-H/encoder.h ../Core/Inc/BOTterfly-H/odometry.h \
  ../Core/Inc/BOTterfly-H/strategy.h ../Core/Inc/BOTterfly-H/ctrl_speed.h \
- ../Core/Inc/BOTterfly-H/ctrl_positionV2.h
+ ../Core/Inc/BOTterfly-H/ctrl_positionV1.h
 
 ../Core/Inc/main.h:
 
@@ -165,4 +165,4 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 
 ../Core/Inc/BOTterfly-H/ctrl_speed.h:
 
-../Core/Inc/BOTterfly-H/ctrl_positionV2.h:
+../Core/Inc/BOTterfly-H/ctrl_positionV1.h:

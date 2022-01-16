@@ -32,8 +32,8 @@
 #include "BOTterfly-H/odometry.h"
 #include "BOTterfly-H/strategy.h"
 #include "BOTterfly-H/ctrl_speed.h"
-//#include "BOTterfly-H/ctrl_positionV1.h"
-#include "BOTterfly-H/ctrl_positionV2.h"
+#include "BOTterfly-H/ctrl_positionV1.h"
+//#include "BOTterfly-H/ctrl_positionV2.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -116,8 +116,8 @@ void target(int argc, char ** argv){
 	if(argc == 3){
 		float x = atof(argv[1]);
 		float y = atof(argv[2]);
-		CTRL_Pos2_SetTargetX((double)x);
-		CTRL_Pos2_SetTargetY((double)y);
+		CTRL_Pos1_SetTargetX((double)x);
+		CTRL_Pos1_SetTargetY((double)y);
 	}
 }
 
@@ -140,7 +140,7 @@ void vTaskAsserv(void * p){
 			MOTG_IN1_GPIO_Port, MOTG_IN1_Pin,
 			MOTG_IN2_GPIO_Port, MOTG_IN2_Pin);
 	MOT_SetCoeff(&MoteurGauche, 1.2, 0.1);
-	MOT_SetDirection(&MoteurGauche, MOT_FUNCTIONS_FORWARD);
+	MOT_SetDirection(&MoteurGauche, MOT_FUNCTIONS_REVERSE);
 	MOT_SetDutyCycle(&MoteurGauche, 0);
 
 	/* Initialisation Moteur Droite ---------------------*/
@@ -166,41 +166,44 @@ void vTaskAsserv(void * p){
 
 	while(1){
 
-		if(CTRL_Pos2_isArrived()){
+		if(CTRL_Pos1_isArrived()){
 			if(indexStrategy >= (int)3){
 				//bTypeAsserv = 1;
 				//setTargetX(200);
 				//setTargetY(100);
 			} else {
-				CTRL_Pos2_SetTargetX(strategy[indexStrategy].x);
-				CTRL_Pos2_SetTargetY(strategy[indexStrategy].y);
+				CTRL_Pos1_SetTargetX(strategy[indexStrategy].x);
+				CTRL_Pos1_SetTargetY(strategy[indexStrategy].y);
 				indexStrategy++;
 			}
 
 		}
 
 		if(bPower){
-			CTRL_Pos2_PositionControl();
+			//CTRL_Pos1_PositionControl();
+			//CTRL_Pos2_PositionControl();
 
-			/*
+
 			// Get ticks from encoders
-			int32_t ticksG = ENC_GetCnt(&CodeurGauche);
-			int32_t ticksD = ENC_GetCnt(&CodeurDroite);
+			int16_t ticksG = ENC_GetCnt(&CodeurGauche);
+			int16_t ticksD = ENC_GetCnt(&CodeurDroite);
 
 			// Odometry and speed calculations
 			//Odo_OdometryUpdate(ticksG, ticksD);
 
 			// Speed Control Update
-			float vitG = vit_SpeedControl(&MoteurGauche, &CodeurGauche, ticksG, speedValue);
-			float vitD = vit_SpeedControl(&MoteurDroite, &CodeurDroite, ticksD, speedValue);
+			float vitG = CTRL_SpeedControl(&MoteurGauche, &CodeurGauche, ticksG, speedValue);
+			float vitD = CTRL_SpeedControl(&MoteurDroite, &CodeurDroite, ticksD, speedValue);
 
 			// Debug
-			printf("%f;%f\r\n", vitG, vitD);
-			 */
+			printf("%d;%d\r\n", (int)ticksG, (int)ticksD);
+			//printf("%f;%f\r\n", vitG, vitD);
+
 		} else {
 			MOT_SetDutyCycle(&MoteurGauche, 0);
 			MOT_SetDutyCycle(&MoteurDroite, 0);
 		}
+
 
 		vTaskDelay(20);
 	}
@@ -257,12 +260,12 @@ int main(void)
 
 	/* Initialisation de la tâche pour l'asserv ---------*/
 	xReturned = xTaskCreate(
-			vTaskAsserv,      	/* Function that implements the task. */
-			"Asserv",         	/* Text name for the task. */
-			STACK_SIZE,      	/* Stack size in words, not bytes. */
-			(void *) NULL,    	/* Parameter passed into the task. */
-			2,					/* Priority at which the task is created. */
-			&xHandle);      	/* Used to pass out the created task's handle. */
+			vTaskAsserv,      	// Function that implements the task.
+			"Asserv",         	// Text name for the task.
+			STACK_SIZE,      	// Stack size in words, not bytes.
+			(void *) NULL,    	// Parameter passed into the task.
+			2,					// Priority at which the task is created.
+			&xHandle);      	// Used to pass out the created task's handle.
 	if( xReturned == errCOULD_NOT_ALLOCATE_REQUIRED_MEMORY ) {
 		printf("Task Asserv creation error: Could not allocate required memory\r\n");
 	}

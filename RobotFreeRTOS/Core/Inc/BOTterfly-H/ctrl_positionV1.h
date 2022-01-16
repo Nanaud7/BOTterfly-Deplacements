@@ -31,7 +31,7 @@
 void CTRL_Pos1_PositionControl();
 void CTRL_Pos1_SetTargetX(double x);
 void CTRL_Pos1_SetTargetY(double y);
-uint8_t isArrived();
+uint8_t CTRL_Pos1_isArrived();
 /* End of exported functions -------------------------------------------------*/
 
 #endif /* INC_BOTTERFLY_H_CTRL_POSITIONV1_H_ */

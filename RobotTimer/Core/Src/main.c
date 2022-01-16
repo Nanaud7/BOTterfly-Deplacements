@@ -194,7 +194,7 @@ int main(void)
 		//printf("%f\r\n",(float)DISTANCE_PER_TICK);
 
 		if(testStart){
-
+			/*
 			if(isArrived()){
 
 				if(indexStrategy >= (int)5){
@@ -208,6 +208,7 @@ int main(void)
 				}
 
 			}
+			*/
 
 
 			/*
@@ -322,12 +323,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 
 			//Pos_ControlLoop_Smooth();
 
-
+			/*
 			if(bTypeAsserv == 0)
 				Pos_ControlLoop_2steps();
 			else
 				Pos_ControlLoop_Smooth();
-
+			*/
 
 			/*
 			int16_t ticksGauche = ENC_GetCnt(&CodeurGauche);
@@ -338,12 +339,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 			tckDroite = tckDroite + ticksDroit;
 			 */
 
-			/*
+
 			float g = vit_SpeedControl(&MoteurGauche, &CodeurGauche, ENC_GetCnt(&CodeurGauche), 100);
 			float d = vit_SpeedControl(&MoteurDroite, &CodeurDroite, ENC_GetCnt(&CodeurDroite), 100);
 			//printf("g = %.2f\td = %.2f\r\n", g, d);
 			printf("%.2f,%.2f\r\n", g, d);
-			 */
+
 		}
 		else{
 			MOT_SetDutyCycle(&MoteurGauche, 0);

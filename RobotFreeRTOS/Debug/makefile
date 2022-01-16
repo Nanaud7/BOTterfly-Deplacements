@@ -17,6 +17,7 @@ RM := rm -rf
 -include Core/Startup/subdir.mk
 -include Core/Src/BOTterfly-C/subdir.mk
 -include Core/Src/subdir.mk
+-include Core/Inc/BOTterfly-H/subdir.mk
 -include subdir.mk
 -include objects.mk
 

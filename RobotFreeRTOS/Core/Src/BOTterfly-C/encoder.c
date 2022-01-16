@@ -45,9 +45,9 @@ void ENC_SetMillimeterPerTick(ENC_HandleTypeDef* Encoder, double millimeterPerTi
  * @param Encoder ENC_HandleTypeDef
  * @return ticks CNT value
  */
-int32_t ENC_GetCnt(ENC_HandleTypeDef* Encoder){
-	//uint32_t ticks = __HAL_TIM_GET_COUNTER(Encoder->Timer);
-	int32_t ticks = Encoder->Timer->Instance->CNT;
+int16_t ENC_GetCnt(ENC_HandleTypeDef* Encoder){
+	int32_t ticks = __HAL_TIM_GET_COUNTER(Encoder->Timer);
+	//int32_t ticks = Encoder->Timer->Instance->CNT;
 	ENC_ResetCnt(Encoder);
 
 	return ticks;
